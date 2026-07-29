@@ -18,10 +18,8 @@ import android.graphics.ColorSpace.Named.SRGB
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.core.graphics.createBitmap
 
@@ -38,6 +36,22 @@ class MainActivity : ComponentActivity() {
         val drawStart: Float,
         val drawEnd: Float,
     )
+    
+    private fun drawNameOverlay(
+        canvas: Canvas,
+        name: String,
+        width: Int,
+        height: Int,
+    ) {
+        val redColor = Color.pack(1f, 0f, 0f, 1f, ColorSpace.get(BT2020_PQ))
+        val textPaint = Paint().apply {
+            setColor(redColor)
+            textSize = height * 0.3f
+            textAlign = Paint.Align.CENTER
+            isAntiAlias = true
+        }
+        canvas.drawText(name.trimEnd(), width / 2f, height * 0.65f, textPaint)
+    }
     
     private fun createGradient(
         gradientConfig: GradientConfig,
@@ -61,6 +75,8 @@ class MainActivity : ComponentActivity() {
         val endColor = Color.pack(endVal, endVal, endVal, 1f, colorSpace)
         paint.shader = LinearGradient(drawStart, 0f, drawEnd, 0f, startColor, endColor, Shader.TileMode.CLAMP)
         canvas.drawRect(drawStart, 0f, drawEnd, height.toFloat(), paint)
+        
+        drawNameOverlay(canvas, gradientConfig.name, width, height)
         
         return bitmap
     }
@@ -127,19 +143,9 @@ class MainActivity : ComponentActivity() {
             )
             
             for (gradient in gradients) {
-                val stack = FrameLayout(this)
-                
                 val imageView = ImageView(this)
                 imageView.setImageBitmap(createGradient(gradient))
-                stack.addView(imageView)
-                
-                val textView = TextView(this)
-                textView.text = gradient.name.trimEnd()
-                textView.setTextColor(Color.RED)
-                textView.gravity = android.view.Gravity.CENTER
-                stack.addView(textView)
-                
-                gradientContainer.addView(stack)
+                gradientContainer.addView(imageView)
             }
         }
     }
