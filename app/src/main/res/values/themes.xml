@@ -1,0 +1,11 @@
+<resources>
+    
+    <style name="Theme.HdrGradients" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowBackground">#7f7f7f</item>
+        
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+</resources>
