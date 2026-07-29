@@ -1,8 +1,8 @@
 package de.binarynoise.hdrgradients
 
 import kotlin.math.roundToInt
-import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.Bitmap.Config.ARGB_8888
 import android.graphics.Bitmap.Config.RGBA_1010102
@@ -16,6 +16,7 @@ import android.graphics.ColorSpace.Named.DISPLAY_P3
 import android.graphics.ColorSpace.Named.EXTENDED_SRGB
 import android.graphics.ColorSpace.Named.SRGB
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -144,5 +145,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-context(context: Context)
-val Int.dp: Int get() = (this * context.resources.displayMetrics.density).roundToInt()
+val Int.dp: Int get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).roundToInt()

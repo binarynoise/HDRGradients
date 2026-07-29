@@ -2,7 +2,6 @@
 activity = "1.13.0"
 agp = "9.1.1"
 coreKtx = "1.19.0"
-kotlin = "2.4.10"
 
 [libraries]
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -10,4 +9,3 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
