@@ -10,8 +10,8 @@ android {
         applicationId = "de.binarynoise.hdrgradients"
         minSdk = 34
         targetSdk = 37
-        versionCode = 2
-        versionName = "2"
+        versionCode = 3
+        versionName = "3"
     }
     
     buildTypes {
@@ -39,9 +39,14 @@ android {
             )
         }
     }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity)
+    implementation(libs.hiddenapibypass)
 }

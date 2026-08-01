@@ -1,6 +1,7 @@
 package de.binarynoise.hdrgradients
 
 import kotlin.math.roundToInt
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Resources
 import android.graphics.*
@@ -20,8 +21,12 @@ import android.util.TypedValue
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.core.graphics.createBitmap
+import de.binarynoise.hdrgradients.HiddenDisplay.colorModeToString
+import de.binarynoise.hdrgradients.HiddenDisplay.getColorMode
+import de.binarynoise.hdrgradients.HiddenDisplay.getSupportedColorModes
 
 class MainActivity : ComponentActivity() {
     
@@ -120,8 +125,16 @@ class MainActivity : ComponentActivity() {
 //                GradientConfig("BT.2020 8888   ", w, h, 0f, 1f, bt2020, ARGB_8888, 0f, w.toFloat()),
 //                GradientConfig("BT.2020 F16    ", w, h, 0f, 1f, bt2020, RGBA_F16, 0f, w.toFloat()),
                 
-                GradientConfig("P3 F16", w, h, 0f, 1f, p3, RGBA_F16, 0f, w.toFloat()),
-                GradientConfig("sRGB F16", w, h, 0f, 1f, srgb, RGBA_F16, 0f, w.toFloat()),
+                GradientConfig("P3 F16    ", w, h, 0f, 1f, p3, RGBA_F16, 0f, w.toFloat()),
+                GradientConfig("P3 1010102", w, h, 0f, 1f, p3, RGBA_1010102, 0f, w.toFloat()),
+                GradientConfig("P3 8888   ", w, h, 0f, 1f, p3, ARGB_8888, 0f, w.toFloat()),
+                GradientConfig("P3 F16    ", w, h, 0f, 1f, p3, RGBA_F16, 0f, w.toFloat()),
+                
+                
+                GradientConfig("sRGB F16    ", w, h, 0f, 1f, srgb, RGBA_F16, 0f, w.toFloat()),
+                GradientConfig("sRGB 1010102", w, h, 0f, 1f, srgb, RGBA_1010102, 0f, w.toFloat()),
+                GradientConfig("sRGB 8888   ", w, h, 0f, 1f, srgb, ARGB_8888, 0f, w.toFloat()),
+                GradientConfig("sRGB F16    ", w, h, 0f, 1f, srgb, RGBA_F16, 0f, w.toFloat()),
                 
                 GradientConfig("BT.2020 HLG F16    ", w, h, 0f, 1f, bt2020_hlg, RGBA_F16, 0f, w.toFloat()),
                 GradientConfig("BT.2020 HLG 1010102", w, h, 0f, 1f, bt2020_hlg, RGBA_1010102, 0f, w.toFloat()),
@@ -149,6 +162,18 @@ class MainActivity : ComponentActivity() {
                 gradientContainer.addView(imageView)
             }
         }
+    }
+    
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+        
+        val colorInfoTextView = findViewById<TextView>(R.id.displayInfoTextView)
+        colorInfoTextView.text = """
+            isWideColorGamut: ${display.isWideColorGamut} | isHdr: ${display.isHdr} | colorMode: ${colorModeToString(display.getColorMode())} | preferredWideGamutColorSpace: ${display.preferredWideGamutColorSpace}
+            hdrCapabilities: ${display.hdrCapabilities}
+            supportedColorModes: ${display.getSupportedColorModes().joinToString(", ", transform = HiddenDisplay::colorModeToString)}
+            """.trimIndent()
     }
 }
 
