@@ -42,8 +42,9 @@ class MainActivity : ComponentActivity() {
         name: String,
         width: Int,
         height: Int,
+        colorSpace: ColorSpace,
     ) {
-        val redColor = Color.pack(1f, 0f, 0f, 1f, ColorSpace.get(BT2020_PQ))
+        val redColor = Color.pack(1f, 0f, 0f, 1f, colorSpace)
         val textPaint = Paint().apply {
             setColor(redColor)
             textSize = height * 0.3f
@@ -76,7 +77,7 @@ class MainActivity : ComponentActivity() {
         paint.shader = LinearGradient(drawStart, 0f, drawEnd, 0f, startColor, endColor, Shader.TileMode.CLAMP)
         canvas.drawRect(drawStart, 0f, drawEnd, height.toFloat(), paint)
         
-        drawNameOverlay(canvas, gradientConfig.name, width, height)
+        drawNameOverlay(canvas, gradientConfig.name, width, height, colorSpace)
         
         return bitmap
     }
